@@ -9,6 +9,25 @@ namespace DataLayer.DataLayerModel
 {
     public class UserEF
     {
+        public UserEF(int userId, string name, string email, string phone, LocationEF location)
+        {
+            UserId = userId;
+            Name = name;
+            Email = email;
+            Phone = phone;
+            Location = location;
+        }
+
+        public UserEF(string name, string email, string phone, LocationEF location)
+        {
+            Name = name;
+            Email = email;
+            Phone = phone;
+            Location = location;
+        }
+
+        public UserEF() { }
+
         [Key]
         public int UserId { get; set; }
 
@@ -24,14 +43,5 @@ namespace DataLayer.DataLayerModel
 
         [Required]
         public LocationEF Location { get; set; }
-
-        public void Register() { /* Implementation */
-        }
-
-        public void UpdateProfile() { /* Implementation */
-        }
-
-        public void Unsubscribe() { /* Implementation */
-        }
     }
 }

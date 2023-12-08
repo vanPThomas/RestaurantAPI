@@ -8,10 +8,9 @@ namespace DataLayer.Context
 {
     public class DBContext : DbContext
     {
-        string mainDb =
-            "Data Source=HIMEKO\\SQLEXPRESS;Initial Catalog=RestaurantAPI;Integrated Security=True; TrustServerCertificate=true";
+        public DBContext(DbContextOptions<DBContext> options)
+            : base(options) { }
 
-        // DbSet properties for your models
         public DbSet<ContactEF> Contacts { get; set; }
         public DbSet<LocationEF> Locations { get; set; }
         public DbSet<ReservationEF> Reservations { get; set; }
@@ -20,7 +19,18 @@ namespace DataLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(mainDb);
+            optionsBuilder.UseSqlServer(
+                @"Data Source=HIMEKO\SQLEXPRESS;Initial Catalog=RestaurantAPI;Integrated Security=True; TrustServerCertificate=true"
+            );
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<ReservationEF>()
+                .HasOne(x => x.User)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

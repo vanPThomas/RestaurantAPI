@@ -12,13 +12,7 @@ public class ReservationEF
     public int ReservationId { get; set; }
 
     [Required]
-    public int UserId { get; set; } // Foreign key property
-
-    [Required]
     public UserEF User { get; set; }
-
-    [Required]
-    public int RestaurantId { get; set; }
 
     [Required]
     public RestaurantEF Restaurant { get; set; }
@@ -37,14 +31,4 @@ public class ReservationEF
 
     [Required]
     public int NumberOfSeats { get; set; }
-
-    public void Update(
-        DateTime date,
-        TimeSpan time,
-        int numberOfSeats
-    ) { /* Implementation */
-    }
-
-    public void Cancel() { /* Implementation */
-    }
 }

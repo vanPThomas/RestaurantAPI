@@ -25,7 +25,6 @@ namespace DataLayer.Mappers
         {
             return new ReservationEF
             {
-                ReservationId = reservation.ReservationID,
                 User = MapToEFModel(reservation.User),
                 Restaurant = MapToEFModel(reservation.Restaurant),
                 ReservationNumber = reservation.ReservationNumber,
@@ -38,21 +37,24 @@ namespace DataLayer.Mappers
 
         public static UserEF MapToEFModel(User user)
         {
-            return new UserEF
-            {
-                UserId = user.UserID,
-                Name = user.Name,
-                Email = user.Email,
-                Phone = user.Phone,
-                Location = MapToEFModel(user.Location),
-            };
+            return new UserEF(user.Name, user.Email, user.Phone, MapToEFModel(user.Location));
+        }
+
+        public static UserEF MapToEFModel(User user, int id)
+        {
+            return new UserEF(
+                user.UserID,
+                user.Name,
+                user.Email,
+                user.Phone,
+                MapToEFModel(user.Location)
+            );
         }
 
         public static RestaurantEF MapToEFModel(Restaurant restaurant)
         {
             return new RestaurantEF
             {
-                RestaurantId = restaurant.RestaurantID,
                 Name = restaurant.Name,
                 Location = MapToEFModel(restaurant.Location),
                 Cuisine = restaurant.Cuisine,

@@ -24,15 +24,6 @@ namespace DataLayer.DataLayerModel
         [Required]
         public ContactEF Contact { get; set; }
 
-        public void Add() { /* Implementation */
-        }
-
-        public void Update() { /* Implementation */
-        }
-
-        public void Remove() { /* Implementation */
-        }
-
         public List<ReservationEF> Reservations { get; set; }
     }
 }

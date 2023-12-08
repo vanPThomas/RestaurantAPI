@@ -23,16 +23,16 @@ namespace RestaurantAPI
             builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
             builder.Services.AddScoped<IReservationService, ReservationService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddDbContext<DBContext>(options =>
             {
                 options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection")
+                    @"Data Source=HIMEKO\SQLEXPRESS;Initial Catalog=RestaurantAPI;Integrated Security=True; TrustServerCertificate=true"
                 );
             });
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

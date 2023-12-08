@@ -19,18 +19,17 @@ namespace RestaurantAPI.Mappers
 
         public static Location MapToBusinessModel(LocationDTO locationDto)
         {
-            return new Location
-            {
-                Postcode = locationDto.Postcode,
-                City = locationDto.City,
-                Street = locationDto.Street,
-                HouseNumberLabel = locationDto.HouseNumberLabel
-            };
+            return new Location(
+                locationDto.Postcode,
+                locationDto.City,
+                locationDto.Street,
+                locationDto.HouseNumberLabel
+            );
         }
 
         public static Contact MapToBusinessModel(ContactDTO contactDto)
         {
-            return new Contact { Phone = contactDto.Phone, Email = contactDto.Email };
+            return new Contact(contactDto.Phone, contactDto.Email);
         }
 
         public static Restaurant MapToBusinessModel(RestaurantDTO restaurantDto)

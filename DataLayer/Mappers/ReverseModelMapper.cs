@@ -7,18 +7,17 @@ namespace DataLayer.Mappers
     {
         public static Contact MapToBusinessModel(ContactEF contactEF)
         {
-            return new Contact { Phone = contactEF.Phone, Email = contactEF.Email, };
+            return new Contact(contactEF.Phone, contactEF.Email);
         }
 
         public static Location MapToBusinessModel(LocationEF locationEF)
         {
-            return new Location
-            {
-                Postcode = locationEF.Postcode,
-                City = locationEF.City,
-                Street = locationEF.Street,
-                HouseNumberLabel = locationEF.HouseNumberLabel,
-            };
+            return new Location(
+                locationEF.Postcode,
+                locationEF.City,
+                locationEF.Street,
+                locationEF.HouseNumberLabel
+            );
         }
 
         public static Reservation MapToBusinessModel(ReservationEF reservationEF)
