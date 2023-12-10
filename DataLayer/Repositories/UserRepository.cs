@@ -1,11 +1,8 @@
 ﻿using BusinessLayer.Interfaces;
 using BusinessLayer.Model;
 using DataLayer.Context;
-using DataLayer.DataLayerModel;
 using DataLayer.Mappers;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DataLayer.Repositories
 {
@@ -37,9 +34,27 @@ namespace DataLayer.Repositories
 
         public void Update(User entity)
         {
-            var userEF = ModelMapper.MapToEFModel(entity);
-            _dbContext.Users.Update(userEF);
-            SaveAndClear();
+            var existingUserEF = _dbContext.Users
+                .Include(u => u.Location) // Include Location to ensure it's loaded
+                .FirstOrDefault(u => u.UserId == entity.UserID);
+            if (existingUserEF != null)
+            {
+                var userEF = ModelMapper.MapToEFModel(entity);
+                existingUserEF.Name = entity.Name;
+                existingUserEF.Email = entity.Email;
+                existingUserEF.Phone = entity.Phone;
+                existingUserEF.Location.Postcode = entity.Location.Postcode;
+                existingUserEF.Location.HouseNumberLabel = entity.Location.HouseNumberLabel;
+                existingUserEF.Location.Street = entity.Location.Street;
+                existingUserEF.Location.City = entity.Location.City;
+
+                _dbContext.Users.Update(existingUserEF);
+                SaveAndClear();
+            }
+            else
+            {
+                Console.WriteLine($"User with ID {entity.UserID} not found for update.");
+            }
         }
 
         public void Remove(User entity)

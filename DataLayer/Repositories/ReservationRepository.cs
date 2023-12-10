@@ -14,10 +14,18 @@ namespace DataLayer.Repositories
     public class ReservationRepository : IRepository<Reservation>
     {
         private readonly DBContext _dbContext; // Replace YourDbContext with the actual DbContext used in your application
+        private IRepository<Restaurant> _restaurantRepository;
+        private IRepository<User> _userRepository;
 
-        public ReservationRepository(DBContext dbContext)
+        public ReservationRepository(
+            DBContext dbContext,
+            IRepository<Restaurant> rr,
+            IRepository<User> ru
+        )
         {
             _dbContext = dbContext;
+            _restaurantRepository = rr;
+            _userRepository = ru;
         }
 
         public Reservation GetById(int id)
@@ -36,21 +44,33 @@ namespace DataLayer.Repositories
 
         public void Add(Reservation entity)
         {
-            var reservationEF = ModelMapper.MapToEFModel(entity);
+            var reservationEF = ModelMapper.MapToEFModel(
+                entity,
+                _restaurantRepository,
+                _userRepository
+            );
             _dbContext.Reservations.Add(reservationEF);
             _dbContext.SaveChanges();
         }
 
         public void Update(Reservation entity)
         {
-            var reservationEF = ModelMapper.MapToEFModel(entity);
+            var reservationEF = ModelMapper.MapToEFModel(
+                entity,
+                _restaurantRepository,
+                _userRepository
+            );
             _dbContext.Reservations.Update(reservationEF);
             _dbContext.SaveChanges();
         }
 
         public void Remove(Reservation entity)
         {
-            var reservationEF = ModelMapper.MapToEFModel(entity);
+            var reservationEF = ModelMapper.MapToEFModel(
+                entity,
+                _restaurantRepository,
+                _userRepository
+            );
             _dbContext.Reservations.Remove(reservationEF);
             _dbContext.SaveChanges();
         }

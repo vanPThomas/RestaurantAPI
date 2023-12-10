@@ -49,8 +49,8 @@ namespace RestaurantAPI.Mappers
             return new Reservation
             {
                 ReservationID = reservationDto.ReservationId,
-                User = MapToBusinessModel(reservationDto.User),
-                Restaurant = MapToBusinessModel(reservationDto.Restaurant),
+                UserId = reservationDto.UserId,
+                RestaurantId = reservationDto.RestaurantId,
                 ReservationNumber = reservationDto.ReservationNumber,
                 Date = reservationDto.Date,
                 Time = reservationDto.Time,

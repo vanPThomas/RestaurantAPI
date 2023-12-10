@@ -25,8 +25,8 @@ namespace DataLayer.Mappers
             return new Reservation
             {
                 ReservationID = reservationEF.ReservationId,
-                User = MapToBusinessModel(reservationEF.User),
-                Restaurant = MapToBusinessModel(reservationEF.Restaurant),
+                UserId = reservationEF.User.UserId,
+                RestaurantId = reservationEF.Restaurant.RestaurantId,
                 ReservationNumber = reservationEF.ReservationNumber,
                 Date = reservationEF.Date,
                 Time = reservationEF.Time,

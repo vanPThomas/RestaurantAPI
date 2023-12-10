@@ -1,5 +1,7 @@
-﻿using BusinessLayer.Model;
+﻿using BusinessLayer.Interfaces;
+using BusinessLayer.Model;
 using DataLayer.DataLayerModel;
+using DataLayer.Repositories;
 
 namespace DataLayer.Mappers
 {
@@ -21,12 +23,16 @@ namespace DataLayer.Mappers
             };
         }
 
-        public static ReservationEF MapToEFModel(Reservation reservation)
+        public static ReservationEF MapToEFModel(
+            Reservation reservation,
+            IRepository<Restaurant> rr,
+            IRepository<User> ru
+        )
         {
             return new ReservationEF
             {
-                User = MapToEFModel(reservation.User),
-                Restaurant = MapToEFModel(reservation.Restaurant),
+                User = MapToEFModel(ru.GetById(reservation.UserId)),
+                Restaurant = MapToEFModel(rr.GetById(reservation.RestaurantId)),
                 ReservationNumber = reservation.ReservationNumber,
                 Date = reservation.Date,
                 Time = reservation.Time,
@@ -55,6 +61,18 @@ namespace DataLayer.Mappers
         {
             return new RestaurantEF
             {
+                Name = restaurant.Name,
+                Location = MapToEFModel(restaurant.Location),
+                Cuisine = restaurant.Cuisine,
+                Contact = MapToEFModel(restaurant.Contact),
+            };
+        }
+
+        public static RestaurantEF MapToEFModel(Restaurant restaurant, int id)
+        {
+            return new RestaurantEF
+            {
+                RestaurantId = restaurant.RestaurantID,
                 Name = restaurant.Name,
                 Location = MapToEFModel(restaurant.Location),
                 Cuisine = restaurant.Cuisine,

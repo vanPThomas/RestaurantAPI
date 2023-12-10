@@ -91,13 +91,11 @@ namespace RestaurantAPI.Controllers
 
         private RestaurantDTO MapToDTO(Restaurant restaurant)
         {
-            // Use your mapping function or AutoMapper here
             return ReverseModelMapper.MapToDTO(restaurant);
         }
 
         private Restaurant MapToDataLayer(RestaurantDTO restaurantDTO)
         {
-            // Use your mapping function or AutoMapper here
             return ModelMapper.MapToBusinessModel(restaurantDTO);
         }
     }

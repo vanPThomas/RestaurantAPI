@@ -50,8 +50,8 @@ namespace RestaurantAPI.Mappers
             return new ReservationDTO
             {
                 ReservationId = reservation.ReservationID,
-                User = MapToDTO(reservation.User),
-                Restaurant = MapToDTO(reservation.Restaurant),
+                UserId = reservation.UserId,
+                RestaurantId = reservation.RestaurantId,
                 ReservationNumber = reservation.ReservationNumber,
                 Date = reservation.Date,
                 Time = reservation.Time,

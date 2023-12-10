@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Exceptions;
+using BusinessLayer.Interfaces;
 using BusinessLayer.Model;
 using System;
 using System.Collections.Generic;
@@ -25,19 +26,36 @@ namespace BusinessLayer.Services
 
         public void AddRestaurant(Restaurant restaurant)
         {
-            // Additional business logic or validation can be added here
-            _restaurantRepository.Add(restaurant);
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(restaurant.Name))
+                    _restaurantRepository.Add(restaurant);
+                else
+                    throw new RestaurantException("Restaurant name can not be empty");
+            }
+            catch (Exception ex)
+            {
+                throw new RestaurantException("Restaurant name can not be empty");
+            }
         }
 
         public void UpdateRestaurant(Restaurant restaurant)
         {
-            // Additional business logic or validation can be added here
-            _restaurantRepository.Update(restaurant);
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(restaurant.Name))
+                    _restaurantRepository.Update(restaurant);
+                else
+                    throw new RestaurantException("Restaurant name can not be empty");
+            }
+            catch (Exception ex)
+            {
+                throw new RestaurantException("Restaurant name can not be empty");
+            }
         }
 
         public void RemoveRestaurant(Restaurant restaurant)
         {
-            // Additional business logic or validation can be added here
             _restaurantRepository.Remove(restaurant);
         }
     }

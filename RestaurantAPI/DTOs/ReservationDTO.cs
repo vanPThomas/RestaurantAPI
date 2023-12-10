@@ -3,8 +3,8 @@
     public class ReservationDTO
     {
         public int ReservationId { get; set; }
-        public UserDTO User { get; set; }
-        public RestaurantDTO Restaurant { get; set; }
+        public int UserId { get; set; }
+        public int RestaurantId { get; set; }
         public int ReservationNumber { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }

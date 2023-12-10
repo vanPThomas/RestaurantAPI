@@ -21,9 +21,11 @@ namespace RestaurantAPI
             builder.Services.AddScoped<IRepository<Location>, LocationRepository>();
             builder.Services.AddScoped<IRepository<Contact>, ContactRepository>();
             builder.Services.AddScoped<IRepository<User>, UserRepository>();
+            builder.Services.AddScoped<IRepository<Restaurant>, RestaurantRepository>();
 
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 
             builder.Services.AddDbContext<DBContext>(options =>
             {

@@ -13,12 +13,7 @@ namespace BusinessLayer.Model
         public Location Location { get; set; }
         public string Cuisine { get; set; }
         public Contact Contact { get; set; }
-
-        public void Add() { }
-
-        public void Update() { }
-
-        public void Remove() { }
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
 
         public List<Reservation> GetReservations(DateTime date)
         {
