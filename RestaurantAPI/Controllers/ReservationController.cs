@@ -11,26 +11,43 @@ namespace RestaurantAPI.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
+        private readonly ILogger _logger;
 
-        public ReservationController(IReservationService reservationService)
+        public ReservationController(
+            IReservationService reservationService,
+            ILoggerFactory loggerFactory
+        )
         {
             _reservationService = reservationService;
+            _logger = loggerFactory
+                .AddFile("./Logs/ReservationLogs/ReservationLog.txt")
+                .CreateLogger("Reservation");
         }
 
         // GET api/reservation/1
         [HttpGet("{id}")]
         public ActionResult<ReservationDTO> GetReservation(int id)
         {
-            Reservation reservation = _reservationService.GetReservationById(id);
-
-            if (reservation == null)
+            try
             {
-                return NotFound();
+                _logger.LogInformation($"Calling GetReservation with ID: {id}");
+
+                Reservation reservation = _reservationService.GetReservationById(id);
+
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                ReservationDTO reservationDTO = MapToDTO(reservation);
+
+                return Ok(reservationDTO);
             }
-
-            ReservationDTO reservationDTO = MapToDTO(reservation);
-
-            return Ok(reservationDTO);
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while processing GetReservation.");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         // POST api/reservation
@@ -39,67 +56,89 @@ namespace RestaurantAPI.Controllers
             [FromBody] ReservationDTO reservationDTO
         )
         {
-            // Validation logic if needed
+            try
+            {
+                _logger.LogInformation("Calling CreateReservation");
+                Reservation reservation = MapToDataLayer(reservationDTO);
+                _reservationService.AddReservation(reservation);
 
-            Reservation reservation = MapToDataLayer(reservationDTO);
-            _reservationService.AddReservation(reservation);
-
-            return CreatedAtAction(
-                nameof(GetReservation),
-                new { id = reservation.ReservationID },
-                MapToDTO(reservation)
-            );
+                return CreatedAtAction(
+                    nameof(GetReservation),
+                    new { id = reservation.ReservationID },
+                    MapToDTO(reservation)
+                );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while processing CreateReservation.");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         // PUT api/reservation/1
         [HttpPut("{id}")]
         public IActionResult UpdateReservation(int id, [FromBody] ReservationDTO reservationDTO)
         {
-            if (id != reservationDTO.ReservationId)
+            try
             {
-                return BadRequest();
+                _logger.LogInformation($"Calling UpdateReservation with ID: {id}");
+
+                if (id != reservationDTO.ReservationId)
+                {
+                    return BadRequest();
+                }
+                Reservation existingReservation = _reservationService.GetReservationById(id);
+
+                if (existingReservation == null)
+                {
+                    return NotFound();
+                }
+
+                Reservation updatedReservation = MapToDataLayer(reservationDTO);
+                _reservationService.UpdateReservation(updatedReservation);
+
+                return NoContent();
             }
-
-            // Validation logic if needed
-
-            Reservation existingReservation = _reservationService.GetReservationById(id);
-
-            if (existingReservation == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError("An error occurred while processing UpdateReservation.");
+                return StatusCode(500, "Internal Server Error");
             }
-
-            Reservation updatedReservation = MapToDataLayer(reservationDTO);
-            _reservationService.UpdateReservation(updatedReservation);
-
-            return NoContent();
         }
 
         // DELETE api/reservation/1
         [HttpDelete("{id}")]
         public IActionResult DeleteReservation(int id)
         {
-            Reservation reservation = _reservationService.GetReservationById(id);
-
-            if (reservation == null)
+            try
             {
-                return NotFound();
+                _logger.LogInformation($"Calling DeleteReservation with ID: {id}");
+
+                Reservation reservation = _reservationService.GetReservationById(id);
+
+                if (reservation == null)
+                {
+                    return NotFound();
+                }
+
+                _reservationService.RemoveReservation(reservation);
+
+                return NoContent();
             }
-
-            _reservationService.RemoveReservation(reservation);
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while processing DeleteReservation.");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         private ReservationDTO MapToDTO(Reservation reservation)
         {
-            // Use your mapping function or AutoMapper here
             return ReverseModelMapper.MapToDTO(reservation);
         }
 
         private Reservation MapToDataLayer(ReservationDTO reservationDTO)
         {
-            // Use your mapping function or AutoMapper here
             return ModelMapper.MapToBusinessModel(reservationDTO);
         }
     }

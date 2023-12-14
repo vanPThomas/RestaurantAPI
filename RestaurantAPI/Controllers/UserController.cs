@@ -2,7 +2,7 @@
 using BusinessLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.DTOs;
-using RestaurantAPI.Mappers; // Assuming you have a Mappers namespace
+using RestaurantAPI.Mappers;
 
 namespace RestaurantAPI.Controllers
 {
@@ -37,8 +37,6 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public ActionResult<UserDTO> CreateUser([FromBody] UserDTO userDTO)
         {
-            // Validation logic if needed
-
             User user = MapToDataLayer(userDTO);
             _userService.AddUser(user);
 
@@ -53,9 +51,6 @@ namespace RestaurantAPI.Controllers
             {
                 return BadRequest();
             }
-
-            // Validation logic if needed
-
             User existingUser = _userService.GetUserById(id);
 
             if (existingUser == null)
@@ -87,13 +82,11 @@ namespace RestaurantAPI.Controllers
 
         private UserDTO MapToDTO(User user)
         {
-            // Use your mapping function or AutoMapper here
             return ReverseModelMapper.MapToDTO(user);
         }
 
         private User MapToDataLayer(UserDTO userDTO)
         {
-            // Use your mapping function or AutoMapper here
             return ModelMapper.MapToBusinessModel(userDTO);
         }
     }

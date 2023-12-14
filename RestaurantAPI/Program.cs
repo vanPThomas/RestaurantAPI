@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestaurantAPI.DTOs;
+using Serilog;
 
 namespace RestaurantAPI
 {
@@ -15,6 +16,9 @@ namespace RestaurantAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+            builder.Logging.AddDebug();
 
             // Add services to the container.
             builder.Services.AddScoped<IRepository<Reservation>, ReservationRepository>();
@@ -26,6 +30,8 @@ namespace RestaurantAPI
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+
+            builder.Services.AddControllers();
 
             builder.Services.AddDbContext<DBContext>(options =>
             {

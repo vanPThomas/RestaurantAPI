@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Exceptions
 {
-    public class RestaurantException : Exception
+    public class ReservationException : Exception
     {
-        public RestaurantException()
+        public ReservationException()
             : base() { }
 
-        public RestaurantException(string message)
+        public ReservationException(string message)
             : base(message) { }
 
-        public RestaurantException(string message, Exception innerException)
+        public ReservationException(string message, Exception innerException)
             : base(message, innerException) { }
     }
 }

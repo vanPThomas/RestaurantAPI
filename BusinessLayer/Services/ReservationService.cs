@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Exceptions;
+using BusinessLayer.Interfaces;
 using BusinessLayer.Model;
 
 namespace BusinessLayer.Services
@@ -20,19 +21,66 @@ namespace BusinessLayer.Services
 
         public void AddReservation(Reservation reservation)
         {
-            // Additional business logic or validation can be added here
-            _reservationRepository.Add(reservation);
+            try
+            {
+                ApplyReservationBusinessLogic(reservation);
+                _reservationRepository.Add(reservation);
+            }
+            catch (Exception ex)
+            {
+                throw new ReservationException("Failed: AddResevation", ex);
+            }
         }
 
         public void UpdateReservation(Reservation reservation)
         {
-            _reservationRepository.Update(reservation);
+            try
+            {
+                _reservationRepository.Update(reservation);
+            }
+            catch (Exception ex)
+            {
+                throw new ReservationException("Failed: UpdateResevation", ex);
+            }
         }
 
         public void RemoveReservation(Reservation reservation)
         {
-            // Additional business logic or validation can be added here
-            _reservationRepository.Remove(reservation);
+            try
+            {
+                _reservationRepository.Remove(reservation);
+            }
+            catch (Exception ex)
+            {
+                throw new ReservationException("Failed: RemoveReservation", ex);
+            }
+        }
+
+        private void ApplyReservationBusinessLogic(Reservation reservation)
+        {
+            if (reservation.ReservationNumber <= 0)
+            {
+                throw new ArgumentException(
+                    "Reservation number must be numeric and greater than 0."
+                );
+            }
+            reservation.Date = RoundToNearestHalfHour(reservation.Date);
+
+            reservation.Time = TimeSpan.FromMinutes(90);
+        }
+
+        private DateTime RoundToNearestHalfHour(DateTime dateTime)
+        {
+            var minutes = dateTime.Minute;
+            var roundedMinutes = 30 * (int)Math.Round((double)minutes / 30);
+            return new DateTime(
+                dateTime.Year,
+                dateTime.Month,
+                dateTime.Day,
+                dateTime.Hour,
+                roundedMinutes,
+                0
+            );
         }
     }
 }

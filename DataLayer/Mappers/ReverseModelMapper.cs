@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Model;
 using DataLayer.DataLayerModel;
+using System.ComponentModel.Design;
 
 namespace DataLayer.Mappers
 {
@@ -7,56 +8,91 @@ namespace DataLayer.Mappers
     {
         public static Contact MapToBusinessModel(ContactEF contactEF)
         {
-            return new Contact(contactEF.Phone, contactEF.Email);
+            if (contactEF != null)
+            {
+                return new Contact(contactEF.Phone, contactEF.Email);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static Location MapToBusinessModel(LocationEF locationEF)
         {
-            return new Location(
-                locationEF.Postcode,
-                locationEF.City,
-                locationEF.Street,
-                locationEF.HouseNumberLabel
-            );
+            if (locationEF != null)
+            {
+                return new Location(
+                    locationEF.Postcode,
+                    locationEF.City,
+                    locationEF.Street,
+                    locationEF.HouseNumberLabel
+                );
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static Reservation MapToBusinessModel(ReservationEF reservationEF)
         {
-            return new Reservation
+            if (reservationEF != null)
             {
-                ReservationID = reservationEF.ReservationId,
-                UserId = reservationEF.User.UserId,
-                RestaurantId = reservationEF.Restaurant.RestaurantId,
-                ReservationNumber = reservationEF.ReservationNumber,
-                Date = reservationEF.Date,
-                Time = reservationEF.Time,
-                TableNumber = reservationEF.TableNumber,
-                NumberOfSeats = reservationEF.NumberOfSeats
-            };
+                return new Reservation
+                {
+                    ReservationID = reservationEF.ReservationId,
+                    UserId = reservationEF.User.UserId,
+                    RestaurantId = reservationEF.Restaurant.RestaurantId,
+                    ReservationNumber = reservationEF.ReservationNumber,
+                    Date = reservationEF.Date,
+                    Time = reservationEF.Time,
+                    TableNumber = reservationEF.TableNumber,
+                    NumberOfSeats = reservationEF.NumberOfSeats
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static User MapToBusinessModel(UserEF userEF)
         {
-            return new User
+            if (userEF != null)
             {
-                UserID = userEF.UserId,
-                Name = userEF.Name,
-                Email = userEF.Email,
-                Phone = userEF.Phone,
-                Location = MapToBusinessModel(userEF.Location),
-            };
+                return new User
+                {
+                    UserID = userEF.UserId,
+                    Name = userEF.Name,
+                    Email = userEF.Email,
+                    Phone = userEF.Phone,
+                    Location = MapToBusinessModel(userEF.Location),
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static Restaurant MapToBusinessModel(RestaurantEF restaurantEF)
         {
-            return new Restaurant
+            if (restaurantEF != null)
             {
-                RestaurantID = restaurantEF.RestaurantId,
-                Name = restaurantEF.Name,
-                Location = MapToBusinessModel(restaurantEF.Location),
-                Cuisine = restaurantEF.Cuisine,
-                Contact = MapToBusinessModel(restaurantEF.Contact),
-            };
+                return new Restaurant
+                {
+                    RestaurantID = restaurantEF.RestaurantId,
+                    Name = restaurantEF.Name,
+                    Location = MapToBusinessModel(restaurantEF.Location),
+                    Cuisine = restaurantEF.Cuisine,
+                    Contact = MapToBusinessModel(restaurantEF.Contact),
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
