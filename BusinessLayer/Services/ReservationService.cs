@@ -23,7 +23,7 @@ namespace BusinessLayer.Services
         {
             try
             {
-                ApplyReservationBusinessLogic(reservation);
+                //ApplyReservationBusinessLogic(reservation);
                 _reservationRepository.Add(reservation);
             }
             catch (Exception ex)

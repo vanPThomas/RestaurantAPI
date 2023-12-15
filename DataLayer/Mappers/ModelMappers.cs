@@ -9,18 +9,27 @@ namespace DataLayer.Mappers
     {
         public static ContactEF MapToEFModel(Contact contact)
         {
+            try { }
+            catch (Exception ex) { }
             return new ContactEF { Phone = contact.Phone, Email = contact.Email, };
         }
 
         public static LocationEF MapToEFModel(Location location)
         {
-            return new LocationEF
+            try
             {
-                Postcode = location.Postcode,
-                City = location.City,
-                Street = location.Street,
-                HouseNumberLabel = location.HouseNumberLabel,
-            };
+                return new LocationEF
+                {
+                    Postcode = location.Postcode,
+                    City = location.City,
+                    Street = location.Street,
+                    HouseNumberLabel = location.HouseNumberLabel,
+                };
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static ReservationEF MapToEFModel(
@@ -29,16 +38,22 @@ namespace DataLayer.Mappers
             IRepository<User> ru
         )
         {
-            return new ReservationEF
+            try
             {
-                User = MapToEFModel(ru.GetById(reservation.UserId)),
-                Restaurant = MapToEFModel(rr.GetById(reservation.RestaurantId)),
-                ReservationNumber = reservation.ReservationNumber,
-                Date = reservation.Date,
-                Time = reservation.Time,
-                TableNumber = reservation.TableNumber,
-                NumberOfSeats = reservation.NumberOfSeats
-            };
+                return new ReservationEF
+                {
+                    User = MapToEFModel(ru.GetById(reservation.UserId)),
+                    Restaurant = MapToEFModel(rr.GetById(reservation.RestaurantId)),
+                    Date = reservation.Date,
+                    Time = reservation.Time,
+                    TableNumber = reservation.TableNumber,
+                    NumberOfSeats = reservation.NumberOfSeats
+                };
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static UserEF MapToEFModel(User user)
