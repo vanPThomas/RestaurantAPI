@@ -9,16 +9,12 @@ namespace BusinessLayer.Model
     public class Reservation
     {
         public int ReservationID { get; set; }
-        public int UserId { get; set; }
-        public int RestaurantId { get; set; }
+        public User User { get; set; }
+        public Restaurant Restaurant { get; set; }
         public int ReservationNumber { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
         public int TableNumber { get; set; }
         public int NumberOfSeats { get; set; }
-
-        public void Update(DateTime date, TimeSpan time, int numberOfSeats) { }
-
-        public void Cancel() { }
     }
 }

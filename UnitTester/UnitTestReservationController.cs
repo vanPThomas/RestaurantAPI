@@ -35,16 +35,33 @@ namespace UnitTester
         [Fact]
         public void GetReservation_ReturnsOkResult_WithReservationDTO()
         {
+            var user = new User { UserID = 1, Name = "JohnDoe" };
+
+            var restaurant = new Restaurant { RestaurantID = 1, Name = "SampleRestaurant" };
+
+            var reservation = new Reservation
+            {
+                ReservationID = 1,
+                User = user,
+                Restaurant = restaurant,
+                ReservationNumber = 123,
+                Date = DateTime.Now.Date,
+                Time = new TimeSpan(18, 30, 0),
+                TableNumber = 5,
+                NumberOfSeats = 4
+            };
             // Arrange
             mockReservationService
                 .Setup(service => service.GetReservationById(1))
-                .Returns(new Reservation { ReservationID = 1 });
+                .Returns(reservation);
 
             // Act
             var result = reservationController.GetReservation(1);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var reservationDTO = Assert.IsType<ReservationDTO>(okResult.Value);
+            Assert.Equal(1, reservationDTO.RestaurantId);
         }
 
         [Fact]

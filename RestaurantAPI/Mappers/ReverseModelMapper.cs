@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Model;
+using Microsoft.AspNetCore.SignalR;
 using RestaurantAPI.DTOs;
 
 namespace RestaurantAPI.Mappers
@@ -50,9 +51,8 @@ namespace RestaurantAPI.Mappers
             return new ReservationDTO
             {
                 ReservationId = reservation.ReservationID,
-                UserId = reservation.UserId,
-                RestaurantId = reservation.RestaurantId,
-                ReservationNumber = reservation.ReservationNumber,
+                UserId = reservation.User.UserID,
+                RestaurantId = reservation.Restaurant.RestaurantID,
                 Date = reservation.Date,
                 Time = reservation.Time,
                 TableNumber = reservation.TableNumber,

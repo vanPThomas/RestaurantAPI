@@ -23,7 +23,7 @@ namespace BusinessLayer.Services
         {
             try
             {
-                //ApplyReservationBusinessLogic(reservation);
+                // ApplyReservationBusinessLogic(reservation);
                 _reservationRepository.Add(reservation);
             }
             catch (Exception ex)
@@ -58,12 +58,6 @@ namespace BusinessLayer.Services
 
         private void ApplyReservationBusinessLogic(Reservation reservation)
         {
-            if (reservation.ReservationNumber <= 0)
-            {
-                throw new ArgumentException(
-                    "Reservation number must be numeric and greater than 0."
-                );
-            }
             reservation.Date = RoundToNearestHalfHour(reservation.Date);
 
             reservation.Time = TimeSpan.FromMinutes(90);

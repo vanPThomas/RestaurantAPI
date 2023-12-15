@@ -13,18 +13,5 @@ namespace BusinessLayer.Model
         public Location Location { get; set; }
         public string Cuisine { get; set; }
         public Contact Contact { get; set; }
-        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
-
-        public List<Reservation> GetReservations(DateTime date)
-        {
-            List<Reservation> reservations = new List<Reservation>();
-            return reservations;
-        }
-
-        public List<Reservation> GetAllReservations()
-        {
-            List<Reservation> reservations = new List<Reservation>();
-            return reservations;
-        }
     }
 }

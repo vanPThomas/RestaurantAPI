@@ -42,11 +42,6 @@ namespace DataLayer.Repositories
                 .FirstOrDefault(u => u.RestaurantId == entity.RestaurantID);
 
             List<ReservationEF> reservationEFs = new List<ReservationEF>();
-            foreach (Reservation r in entity.Reservations)
-            {
-                ReservationEF rEF = ModelMapper.MapToEFModel(r, this, _userRepository);
-                reservationEFs.Add(rEF);
-            }
 
             if (existingRestaurantEF != null)
             {

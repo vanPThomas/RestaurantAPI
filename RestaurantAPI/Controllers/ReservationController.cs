@@ -134,7 +134,8 @@ namespace RestaurantAPI.Controllers
 
         private ReservationDTO MapToDTO(Reservation reservation)
         {
-            return ReverseModelMapper.MapToDTO(reservation);
+            ReservationDTO dto = ReverseModelMapper.MapToDTO(reservation);
+            return dto;
         }
 
         private Reservation MapToDataLayer(ReservationDTO reservationDTO)

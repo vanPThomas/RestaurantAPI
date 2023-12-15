@@ -33,11 +33,11 @@ namespace RestaurantAPI
 
             builder.Services.AddControllers();
 
+            string conn = builder.Configuration.GetConnectionString("DefaultConnection");
+
             builder.Services.AddDbContext<DBContext>(options =>
             {
-                options.UseSqlServer(
-                    @"Data Source=HIMEKO\SQLEXPRESS;Initial Catalog=RestaurantAPI;Integrated Security=True; TrustServerCertificate=true"
-                );
+                options.UseSqlServer(conn);
             });
 
             builder.Services.AddControllers();

@@ -13,5 +13,6 @@ namespace BusinessLayer.Interfaces
         void AddRestaurant(Restaurant restaurant);
         void UpdateRestaurant(Restaurant restaurant);
         void RemoveRestaurant(Restaurant restaurant);
+        public List<Reservation> GetReservationsByRestaurant(int id);
     }
 }

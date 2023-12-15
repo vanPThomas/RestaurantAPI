@@ -2,6 +2,7 @@
 using BusinessLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestaurantAPI.DTOIn;
 using RestaurantAPI.DTOs;
 using RestaurantAPI.Mappers;
 using System;
@@ -54,7 +55,9 @@ namespace RestaurantAPI.Controllers
 
         // POST api/restaurant
         [HttpPost]
-        public ActionResult<RestaurantDTO> CreateRestaurant([FromBody] RestaurantDTO restaurantDTO)
+        public ActionResult<RestaurantDTO> CreateRestaurant(
+            [FromBody] RestaurantDTOIn restaurantDTO
+        )
         {
             try
             {
@@ -143,20 +146,14 @@ namespace RestaurantAPI.Controllers
             {
                 _logger.LogInformation($"Calling GetReservationsByRestaurant with ID: {id}");
 
-                Restaurant restaurant = _restaurantService.GetRestaurantById(id);
-
-                if (restaurant == null)
+                List<Reservation> reservations = _restaurantService.GetReservationsByRestaurant(id);
+                List<ReservationDTO> reservationsDTO = new List<ReservationDTO>();
+                foreach (Reservation reservation in reservations)
                 {
-                    return NotFound();
-                }
-                List<ReservationDTO> reservations = new List<ReservationDTO>();
-                foreach (Reservation reservation in restaurant.Reservations)
-                {
-                    ReservationDTO rDTO = MapToDTO(reservation);
-                    reservations.Add(rDTO);
+                    reservationsDTO.Add(ReverseModelMapper.MapToDTO(reservation));
                 }
 
-                return Ok(reservations);
+                return Ok(reservationsDTO);
             }
             catch (Exception ex)
             {
@@ -178,6 +175,11 @@ namespace RestaurantAPI.Controllers
         private ReservationDTO MapToDTO(Reservation reservation)
         {
             return ReverseModelMapper.MapToDTO(reservation);
+        }
+
+        private Restaurant MapToDataLayer(RestaurantDTOIn restaurantDTO)
+        {
+            return ModelMapper.MapToBusinessModel(restaurantDTO);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using BusinessLayer.Model;
+using DataLayer.DataLayerModel;
+using RestaurantAPI.DTOIn;
 using RestaurantAPI.DTOs;
 
 namespace RestaurantAPI.Mappers
@@ -49,13 +51,24 @@ namespace RestaurantAPI.Mappers
             return new Reservation
             {
                 ReservationID = reservationDto.ReservationId,
-                UserId = reservationDto.UserId,
-                RestaurantId = reservationDto.RestaurantId,
-                ReservationNumber = reservationDto.ReservationNumber,
+                User = new User() { UserID = reservationDto.UserId },
+                Restaurant = new Restaurant() { RestaurantID = reservationDto.RestaurantId },
+                ReservationNumber = reservationDto.ReservationId,
                 Date = reservationDto.Date,
                 Time = reservationDto.Time,
                 TableNumber = reservationDto.TableNumber,
                 NumberOfSeats = reservationDto.NumberOfSeats
+            };
+        }
+
+        public static Restaurant MapToBusinessModel(RestaurantDTOIn restaurantDto)
+        {
+            return new Restaurant
+            {
+                Name = restaurantDto.Name,
+                Location = MapToBusinessModel(restaurantDto.Location),
+                Cuisine = restaurantDto.Cuisine,
+                Contact = MapToBusinessModel(restaurantDto.Contact)
             };
         }
     }

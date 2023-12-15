@@ -38,22 +38,15 @@ namespace DataLayer.Mappers
             IRepository<User> ru
         )
         {
-            try
+            return new ReservationEF
             {
-                return new ReservationEF
-                {
-                    User = MapToEFModel(ru.GetById(reservation.UserId)),
-                    Restaurant = MapToEFModel(rr.GetById(reservation.RestaurantId)),
-                    Date = reservation.Date,
-                    Time = reservation.Time,
-                    TableNumber = reservation.TableNumber,
-                    NumberOfSeats = reservation.NumberOfSeats
-                };
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+                User = MapToEFModel(reservation.User),
+                Restaurant = MapToEFModel(reservation.Restaurant),
+                Date = reservation.Date,
+                Time = reservation.Time,
+                TableNumber = reservation.TableNumber,
+                NumberOfSeats = reservation.NumberOfSeats
+            };
         }
 
         public static UserEF MapToEFModel(User user)

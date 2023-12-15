@@ -13,11 +13,5 @@ namespace BusinessLayer.Model
         public string Email { get; set; }
         public string Phone { get; set; }
         public Location Location { get; set; }
-
-        public void Register() { }
-
-        public void UpdateProfile() { }
-
-        public void Unsubscribe() { }
     }
 }

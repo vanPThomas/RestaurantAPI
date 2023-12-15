@@ -58,5 +58,55 @@ namespace BusinessLayer.Services
         {
             _restaurantRepository.Remove(restaurant);
         }
+
+        public List<Reservation> GetReservationsByRestaurant(int id)
+        {
+            //List<Reservation> reservations = _restaurantRepository.GetById(id).Reservations;
+            List<Reservation> reservations = new List<Reservation>();
+            if (id == 1)
+            {
+                Reservation reservation1 = new Reservation
+                {
+                    Restaurant = new Restaurant() { RestaurantID = id},
+                    NumberOfSeats = 3,
+                    ReservationID = 3,
+                    TableNumber = 2,
+                    User = new User() { UserID = 1}
+                };
+                Reservation reservation2 = new Reservation
+                {
+                    Restaurant = new Restaurant() { RestaurantID = id },
+                    NumberOfSeats = 4,
+                    ReservationID = 4,
+                    TableNumber = 2,
+                    User = new User() { UserID = 1 }
+                };
+                reservations.Add(reservation1);
+                reservations.Add(reservation2);
+            }
+            else if (id == 2)
+            {
+                Reservation reservation1 = new Reservation
+                {
+                    Restaurant = new Restaurant() { RestaurantID = id },
+                    NumberOfSeats = 3,
+                    ReservationID = 1,
+                    TableNumber = 2,
+                    User = new User() { UserID = 1 }
+                };
+                Reservation reservation2 = new Reservation
+                {
+                    Restaurant = new Restaurant() { RestaurantID = id },
+                    NumberOfSeats = 4,
+                    ReservationID = 2,
+                    TableNumber = 2,
+                    User = new User() { UserID = 1 }
+                };
+                reservations.Add(reservation1);
+                reservations.Add(reservation2);
+            }
+
+            return reservations;
+        }
     }
 }

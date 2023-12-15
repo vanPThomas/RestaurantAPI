@@ -1,8 +1,7 @@
-﻿namespace RestaurantAPI.DTOs
+﻿namespace RestaurantAPI.DTOIn
 {
-    public class ReservationDTO
+    public class ReservationDTOIn
     {
-        public int ReservationId { get; set; }
         public int UserId { get; set; }
         public int RestaurantId { get; set; }
         public DateTime Date { get; set; }
