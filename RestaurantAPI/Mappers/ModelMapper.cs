@@ -63,13 +63,12 @@ namespace RestaurantAPI.Mappers
 
         public static Restaurant MapToBusinessModel(RestaurantDTOIn restaurantDto)
         {
-            return new Restaurant
-            {
-                Name = restaurantDto.Name,
-                Location = MapToBusinessModel(restaurantDto.Location),
-                Cuisine = restaurantDto.Cuisine,
-                Contact = MapToBusinessModel(restaurantDto.Contact)
-            };
+            return new Restaurant(
+                restaurantDto.Name,
+                MapToBusinessModel(restaurantDto.Location),
+                restaurantDto.Cuisine,
+                MapToBusinessModel(restaurantDto.Contact)
+            );
         }
     }
 }

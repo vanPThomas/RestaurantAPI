@@ -162,6 +162,26 @@ namespace RestaurantAPI.Controllers
             }
         }
 
+        //GET api/restaurant/1/freetables
+        [Route("{id}/freetables")]
+        [HttpGet]
+        public ActionResult<List<string>> GetFreeTablesByRestaurant(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"Calling GetFreeTablesByRestaurant with ID: {id}");
+
+                List<string> tables = _restaurantService.GetFreeTablesByRestaurant(id);
+
+                return Ok(tables);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while processing GetFreeTablesByRestaurant.");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         private RestaurantDTO MapToDTO(Restaurant restaurant)
         {
             return ReverseModelMapper.MapToDTO(restaurant);

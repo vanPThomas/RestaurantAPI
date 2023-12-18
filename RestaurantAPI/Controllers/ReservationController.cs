@@ -36,7 +36,7 @@ namespace RestaurantAPI.Controllers
 
                 if (reservation == null)
                 {
-                    return NotFound();
+                    throw new NullException();
                 }
 
                 ReservationDTO reservationDTO = MapToDTO(reservation);
@@ -45,8 +45,7 @@ namespace RestaurantAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("An error occurred while processing GetReservation.");
-                return StatusCode(500, "Internal Server Error");
+                throw new NullException();
             }
         }
 

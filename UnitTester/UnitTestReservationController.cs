@@ -3,6 +3,7 @@ using BusinessLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using RestaurantAPI;
 using RestaurantAPI.Controllers;
 using RestaurantAPI.DTOs;
 using System;
@@ -65,16 +66,16 @@ namespace UnitTester
         }
 
         [Fact]
-        public void GET_UnknownID_ReturnsNotFound()
+        public void GetReservation_ThrowsException_WhenReservationIsNull()
         {
             // Arrange
-            mockReservationService.Setup(service => service.GetReservationById(1));
+            int reservationId = 1;
+            mockReservationService
+                .Setup(service => service.GetReservationById(reservationId))
+                .Returns((Reservation)null);
 
-            // Act
-            var result = reservationController.GetReservation(1);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result.Result);
+            // Act & Assert
+            Assert.Throws<NullException>(() => reservationController.GetReservation(reservationId));
         }
 
         [Fact]
